@@ -34,28 +34,17 @@ pipeline {
                     sh '''
                         ssh -o StrictHostKeyChecking=no ec2-user@ec2-13-124-36-229.ap-northeast-2.compute.amazonaws.com \
                         "sudo mkdir -p /home/ec2-user/deploy && \
-                        sudo chmod -R 777 /home/ec2-user/deploy"
-                        
-                        scp /var/lib/jenkins/workspace/jenkins0531/build/libs/*.jar ec2-user@ec2-13-124-36-229.ap-northeast-2.compute.amazonaws.com:/home/ec2-user/deploy
-                        
-                        ssh -o StrictHostKeyChecking=no ec2-user@ec2-13-124-36-229.ap-northeast-2.compute.amazonaws.com << 'EOF'
-                        echo "Stopping any running Java processes..."
-                        currentPid=$(ps -ef | grep java | grep -v grep | awk '{print \$2}')
-                        if [ -n "$currentPid" ]; then
-                            echo "Stopping current Java process with PID: $currentPid"
-                            sudo kill -9 $currentPid
-                            sleep 10
-                        fi
-
-                        echo "Starting new Java application"
-                        nohup java -jar /home/ec2-user/deploy/DVM-1.0-SNAPSHOT.jar >> /home/ec2-user/deploy/application.log 2>&1 &
-
-                        echo "Checking if application started on port 9001..."
-                        sleep 5
-                        sudo netstat -tuln | grep 9001
-                        EOF
+                        sudo chmod -R 777 /home/ec2-user/deploy && \
+                        scp /var/lib/jenkins/workspace/jenkins0531/build/libs/*.jar ec2-user@ec2-13-124-36-229.ap-northeast-2.compute.amazonaws.com:/home/ec2-user/deploy && \
+                        sudo chmod +x /home/ec2-user/deploy/*.jar && \
+                        currentPid=$(ps -ef | grep java | grep dokotlin | awk '{print \$2}') && \
+                        if [ -n \"\$currentPid\" ]; then \
+                            kill -9 \$currentPid && \
+                            sleep 10; \
+                        fi && \
+                        nohup java -jar /home/ec2-user/deploy/*.jar >> /home/ec2-user/deploy/application.log 2>&1 &"
                     '''
-                        }
+                }
             }
         }
     }

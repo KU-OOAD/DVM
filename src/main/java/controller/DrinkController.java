@@ -20,18 +20,22 @@ public class DrinkController implements Controller {
         getMenuList(dos, url);
     }
 
-    private void getMenuList(DataOutputStream dos, String body) throws IOException {
-        dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/json;charset=utf-8\r\n\r\n"));
+    private void getMenuList(DataOutputStream dos, String body) {
+        try {
+            dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/json;charset=utf-8\r\n\r\n"));
 
-        DrinkManager manager = new DrinkManager();
-        List list = manager.getMenuInfo();
-        Gson gson = new Gson();
-        String json = gson.toJson(list);
-        byte[] b = json.getBytes(StandardCharsets.UTF_8);
-        System.out.println(json);
+            DrinkManager manager = new DrinkManager();
+            List list = manager.getMenuInfo();
+            Gson gson = new Gson();
+            String json = gson.toJson(list);
+            byte[] b = json.getBytes(StandardCharsets.UTF_8);
+            System.out.println(json);
 
-        dos.write(b);
-        dos.flush();
+            dos.write(b);
+            dos.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -1,6 +1,7 @@
 package controller;
 
 import com.google.gson.Gson;
+import data.Drink;
 import manager.DrinkManager;
 
 import java.io.*;
@@ -25,14 +26,18 @@ public class DrinkController implements Controller {
             dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/json;charset=utf-8\r\n\r\n"));
 
             DrinkManager manager = new DrinkManager();
-            List list = manager.getMenuInfo();
-            Gson gson = new Gson();
-            String json = gson.toJson(list);
-            byte[] b = json.getBytes(StandardCharsets.UTF_8);
-            System.out.println(json);
-            System.out.println("ok");
+            List<Drink> list = manager.getMenuInfo();
+            StringBuilder str = new StringBuilder();
+            for (Drink drink : list) {
+                str.append(String.format("%02d", drink.getId()));
+                str.append(" ");
+                str.append(drink.getDrinkName());
+                str.append(" ");
+                str.append(drink.getDrinkPrice());
+                str.append("\n");
+            }
 
-            dos.write(b);
+            dos.write(str.toString().getBytes(StandardCharsets.UTF_8));
             dos.flush();
         } catch (Exception e) {
             e.printStackTrace();

@@ -13,7 +13,7 @@ import static java.lang.Integer.parseInt;
 
 public class DrinkDBManager implements DBManager {
 
-    private String dbPath = "src/main/resources/stock.txt";
+    private String dbPath = "../../src/main/resources/stock.txt";
 
     private static final DrinkDBManager manager = new DrinkDBManager();
 

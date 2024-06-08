@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class AdminDBManager implements DBManager {
 
-    private String dbPath = "../../src/main/resources/adminAccount.txt";
+    private String dbPath = "src/main/resources/adminAccount.txt";
 
     private static final AdminDBManager manager = new AdminDBManager();
 

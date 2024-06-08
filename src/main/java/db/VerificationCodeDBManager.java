@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class VerificationCodeDBManager implements DBManager {
 
-    private String dbPath = "../../src/main/resources/verificationCode.txt";
+    private String dbPath = "src/main/resources/verificationCode.txt";
 
     private static final VerificationCodeDBManager manager = new VerificationCodeDBManager();
 

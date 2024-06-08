@@ -19,10 +19,10 @@ public class DVMContactManager {
         //usecase3, usecase11
         // AnotherVM에게 searchDrink(drinkType, drinkNum) 실행시키기. drinkInfo 리턴받기
 
-        List<String> serverIps = List.of("13.124.36.229", "13.124.36.230", "13.124.36.231"); // 서버 IP 주소 목록들, 수정 요함
+        List<String> serverIps = List.of("turtle-hwan.iptime.org", "13.124.36.230", "13.124.36.231"); // 서버 IP 주소 목록들, 수정 요함
 
         String myServerIp = "13.124.36.229"; // 서버 IP 주소
-        int port = 9001; // 서버 포트 번호
+        int port = 30303; // 서버 포트 번호
 
         String message = String.format("{ \"msg_type\": \"req_stock\", \"src_id\": \"Team2\", \"dst_id\": \"0\", \"msg_content\": { \"item_code\": \"%s\", \"item_num\": %d } }",
                 drinkType, drinkNum);

@@ -6,7 +6,9 @@ import manager.DrinkManager;
 import manager.VerificationManager;
 
 import java.io.*;
+import java.lang.module.FindException;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
 public class VerificationCodeController implements Controller {
 
@@ -25,6 +27,7 @@ public class VerificationCodeController implements Controller {
         char[] body = new char[contentLength];
         br.read(body, 0, contentLength);
         String data = String.copyValueOf(body);
+        System.out.println(data);
 
         verifyCode(dos, data);
     }
@@ -35,8 +38,17 @@ public class VerificationCodeController implements Controller {
 
         DrinkManager drinkManager = new DrinkManager();
         Drink d = drinkManager.getDrink(code.getDrinkType(), code.getDrinkNum());
-        dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/json;charset=utf-8 \r\n\r\n" + d.getDrinkName() + d.getDrinkNum()));
+        System.out.println("st" + d);
+        if(d == null) {
+            System.out.println(d);
+            dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/json;charset=utf-8 \r\n\r\nno"));
+        } else {
+            System.out.println(d);
+            String str = "HTTP/1.1 200 OK \r\n Content Type: text/json;charset=utf-8 \r\n\r\n" + d.getDrinkName() + d.getDrinkNum();
+            dos.write(str.getBytes(StandardCharsets.UTF_8));
+        }
         dos.flush();
+        System.out.println("fin");
     }
 
 }

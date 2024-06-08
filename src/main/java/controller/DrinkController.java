@@ -5,6 +5,7 @@ import manager.DrinkManager;
 
 import java.io.*;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class DrinkController implements Controller {
@@ -20,15 +21,16 @@ public class DrinkController implements Controller {
     }
 
     private void getMenuList(DataOutputStream dos, String body) throws IOException {
-        dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/json;charset=utf-8 \r\n\r\n"));
+        dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/json;charset=utf-8\r\n\r\n"));
 
         DrinkManager manager = new DrinkManager();
         List list = manager.getMenuInfo();
         Gson gson = new Gson();
         String json = gson.toJson(list);
+        byte[] b = json.getBytes(StandardCharsets.UTF_8);
         System.out.println(json);
 
-        dos.writeUTF(json);
+        dos.write(b);
         dos.flush();
     }
 

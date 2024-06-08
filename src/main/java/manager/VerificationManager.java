@@ -9,7 +9,7 @@ public class VerificationManager {
 
     public String getVerificationCode() {
         // TODO implement here
-        StringBuilder stringBuilder = new StringBuilder();
+        //StringBuilder stringBuilder = new StringBuilder();
 
 //        while(true){
 //            Random random = new Random();
@@ -42,7 +42,7 @@ public class VerificationManager {
 //            stringBuilder.setLength(0); //stringBuilder 초기화
 //        }
 
-        return stringBuilder.toString();
+        return "adsf13";
     }////////VerificationManage의 getVerificationCode 매개변수를 void -> String drinkType, int drinkNum 로 바꿔야 함
 
 

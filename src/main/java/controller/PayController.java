@@ -2,14 +2,15 @@ package controller;
 
 import data.Card;
 import data.DVM;
+import data.Drink;
 import data.VerificationCode;
 import manager.DVMContactManager;
 import manager.DrinkManager;
 import manager.PaymentManager;
 import manager.VerificationManager;
-
 import java.io.*;
-import java.net.Socket;
+import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 public class PayController implements Controller {
 
@@ -35,12 +36,12 @@ public class PayController implements Controller {
         br.read(body, 0, contentLength);
         String data = String.copyValueOf(body);
 
-        if(url == "/pay/setDrink") setDrink(dos, data);
-        else if(url == "/pay/setDrinkNum") setDrinkNum(dos, data);
-        else if(url == "/pay/isPayAvailable") isPayAvailable(dos, data);
-        else if(url == "/pay/isPrepayAvailable") isPrepayAvailable(dos, data);
-        else if(url == "/pay/pay") pay(dos, data);
-        else if(url == "/pay/prepay") prepay(dos, data);
+        if(Objects.equals(url, "/pay/setDrink")) setDrink(dos, data);
+        else if(Objects.equals(url, "/pay/setDrinkNum")) setDrinkNum(dos, data);
+        else if(Objects.equals(url, "/pay/isPayAvailable")) isPayAvailable(dos, data);
+        else if(Objects.equals(url, "/pay/isPrepayAvailable")) isPrepayAvailable(dos, data);
+        else if(Objects.equals(url, "/pay/pay")) pay(dos, data);
+        else if(Objects.equals(url, "/pay/prepay")) prepay(dos, data);
     }
 
     private void setDrink(DataOutputStream dos, String body) throws IOException {
@@ -58,7 +59,7 @@ public class PayController implements Controller {
     private void isPayAvailable(DataOutputStream dos, String body) throws IOException {
         DrinkManager drinkManager = new DrinkManager();
         if(drinkManager.hasDrink(drinkType, drinkNum))
-            dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/html;charset=utf-8 \r\n\r\n ok"));
+            dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/html;charset=utf-8 \r\n\r\nok"));
         else {
             DVMContactManager contactManager = new DVMContactManager();
             DVM dvm = contactManager.searchDrink(drinkType, drinkNum);
@@ -68,20 +69,27 @@ public class PayController implements Controller {
                 res += " ";
                 res += dvm.getY();
                 dos.writeBytes(res);
-            } else dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/html;charset=utf-8 \r\n\r\n no"));
+            } else dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/html;charset=utf-8 \r\n\r\nno"));
         }
         dos.flush();
     }
 
     private void isPrepayAvailable(DataOutputStream dos, String body) throws IOException {
-        dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/html;charset=utf-8 \r\n\r\n ok"));
+        dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/html;charset=utf-8 \r\n\r\nok"));
         dos.flush();
     }
 
     private void pay(DataOutputStream dos, String body) throws IOException {
         PaymentManager paymentManager = new PaymentManager();
         String res = paymentManager.reqPay(new Card(body));
-        dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/html;charset=utf-8 \r\n\r\n" + res));
+        if(Objects.equals(res, "ok")) {
+            DrinkManager drinkManager = new DrinkManager();
+            Drink drink = drinkManager.getDrink(drinkType, drinkNum);
+
+            String str = "HTTP/1.1 200 OK \r\n Content Type: text/html;charset=utf-8 \r\n\r\n" + drink.getDrinkName() + " " + drink.getDrinkNum();
+            byte[] b = str.getBytes(StandardCharsets.UTF_8);
+            dos.write(b);
+        } else dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/html;charset=utf-8 \r\n\r\n" + res));
         dos.flush();
     }
 
@@ -91,11 +99,16 @@ public class PayController implements Controller {
 
         DVMContactManager contactManager = new DVMContactManager();
         if(contactManager.reqAdvancePayment(drinkType, drinkNum, code)) {
-            VerificationCode verifyCode = new VerificationCode(code, drinkType, drinkNum);
-            verificationManager.saveCode(verifyCode);
+            PaymentManager paymentManager = new PaymentManager();
+            String res = paymentManager.reqPay(new Card(body));
 
-            dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/html;charset=utf-8 \r\n\r\n ok"));
-        } else dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/html;charset=utf-8 \r\n\r\n ok"));
+            if(Objects.equals(res, "ok")) {
+                VerificationCode verifyCode = new VerificationCode(code, drinkType, drinkNum);
+                verificationManager.saveCode(verifyCode);
+
+                dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/html;charset=utf-8 \r\n\r\n" + code));
+            }
+        } else dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/html;charset=utf-8 \r\n\r\nno"));
         dos.flush();
     }
 

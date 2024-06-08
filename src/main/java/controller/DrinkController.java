@@ -30,6 +30,7 @@ public class DrinkController implements Controller {
             String json = gson.toJson(list);
             byte[] b = json.getBytes(StandardCharsets.UTF_8);
             System.out.println(json);
+            System.out.println("ok");
 
             dos.write(b);
             dos.flush();

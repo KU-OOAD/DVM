@@ -43,8 +43,7 @@ public class DrinkManager {
 
     public List<Drink> reqAmountOfDrink() {
         DrinkDBManager drinkDBManager = DrinkDBManager.getManager();
-        this.menuList = drinkDBManager.getAllDrinkStatus();
-        return menuList;
+        return drinkDBManager.getAllDrinkStatus();
     }
 
 }

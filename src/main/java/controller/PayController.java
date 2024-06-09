@@ -35,6 +35,7 @@ public class PayController implements Controller {
         char[] body = new char[contentLength];
         br.read(body, 0, contentLength);
         String data = String.copyValueOf(body);
+        System.out.println("pay body: " + data);
 
         if(Objects.equals(url, "/pay/setDrink")) setDrink(dos, data);
         else if(Objects.equals(url, "/pay/setDrinkNum")) setDrinkNum(dos, data);

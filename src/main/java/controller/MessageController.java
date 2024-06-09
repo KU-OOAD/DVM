@@ -63,7 +63,7 @@ public class MessageController implements Controller {
         Map<String, Object> map = parser.parse(body);
         Map<String, Object> content = (Map<String, Object>) map.get("msg_content");
 
-        String msg_type = "resp_stock";
+        String msg_type = "resp_prepay";
         String src_id = "Team2";
         String dst_id = map.get("src_id").toString();
         String item_code = content.get("item_code").toString();

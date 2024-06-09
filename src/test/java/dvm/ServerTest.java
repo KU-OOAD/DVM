@@ -171,7 +171,7 @@ public class ServerTest {
         Map<String, Object> map = parser.parse(response);
         Map<String, Object> content = (Map<String, Object>) map.get("msg_content");
 
-        assertEquals(map.get("msg_type").toString(), "resp_stock", "request drink quantity method failed!");
+        assertEquals(map.get("msg_type").toString(), "resp_prepay", "request drink quantity method failed!");
         assertEquals(map.get("src_id").toString(), "Team2", "request drink quantity method failed!");
         assertEquals(map.get("dst_id").toString(), "Team1", "request drink quantity method failed!");
 

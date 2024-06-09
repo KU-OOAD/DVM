@@ -20,6 +20,8 @@ public class PayController implements Controller {
 
     private Card card;
 
+    private DVM dvm;
+
     @Override
     public void execute(String url, BufferedReader br, OutputStream os) throws IOException {
         DataOutputStream dos = new DataOutputStream(os);
@@ -63,7 +65,7 @@ public class PayController implements Controller {
             dos.writeBytes(("HTTP/1.1 200 OK\r\nContent Type: text/html;charset=utf-8\r\n\r\nok"));
         else {
             DVMContactManager contactManager = new DVMContactManager();
-            DVM dvm = contactManager.searchDrink(drinkType, drinkNum);
+            dvm = contactManager.searchDrink(drinkType, drinkNum);
             if(dvm != null) {
                 String res = "HTTP/1.1 200 OK\r\nContent Type: text/html;charset=utf-8\r\n\r\n";
                 res += dvm.getX();
@@ -99,7 +101,7 @@ public class PayController implements Controller {
         String code = verificationManager.getVerificationCode();
 
         DVMContactManager contactManager = new DVMContactManager();
-        if(contactManager.reqAdvancePayment(drinkType, drinkNum, code)) {
+        if(contactManager.reqAdvancePayment(drinkType, drinkNum, code, dvm)) {
             PaymentManager paymentManager = new PaymentManager();
             String res = paymentManager.reqPay(new Card(body));
 

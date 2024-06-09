@@ -7,10 +7,18 @@ import static org.junit.jupiter.api.Assertions.*;
 class DVMContactManagerTest {
 
     @Test
-    void searchDrink() {
+    void searchDrinkTest() {
+
     }
 
     @Test
-    void reqAdvancePayment() {
+    void reqAdvancePaymentTest() {
+
     }
+
+    @Test
+    void nearestDVMTest() {
+
+    }
+
 }

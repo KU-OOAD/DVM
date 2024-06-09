@@ -14,7 +14,7 @@ public class MessageController implements Controller {
     private final DVM myDVM;
 
     public MessageController() {
-        myDVM = new DVM(12, 7);
+        myDVM = new DVM(12, 7, "127.0.0.1:9001");
     }
 
     @Override

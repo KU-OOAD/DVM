@@ -64,6 +64,7 @@ public class PayController implements Controller {
         if(drinkManager.hasDrink(drinkType, drinkNum))
             dos.writeBytes(("HTTP/1.1 200 OK\r\nContent Type: text/html;charset=utf-8\r\n\r\nok"));
         else {
+            System.out.println("don't have drink");
             DVMContactManager contactManager = new DVMContactManager();
             dvm = contactManager.searchDrink(drinkType, drinkNum);
             if(dvm != null) {

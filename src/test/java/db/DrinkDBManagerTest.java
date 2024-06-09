@@ -23,7 +23,7 @@ public class DrinkDBManagerTest {
         // 재고가 있는 음료 테스트
         Assertions.assertTrue(manager.hasDrink("01", 1)); // 콜라 1개
         // 재고가 없는 음료 테스트
-        Assertions.assertFalse(manager.hasDrink("05", 100)); // 밀크티 100개
+        Assertions.assertFalse(manager.hasDrink("11", 11)); // 밀크티 100개
     }
 
     @Test

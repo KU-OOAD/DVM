@@ -13,9 +13,11 @@ import util.JsonParser;
 
 public class DVMContactManager {
 
-    private final List<String> anotherDVMAddresses = new ArrayList<>();
+    private final List<String> anotherDVMAddresses;
 
     public DVMContactManager() {
+        System.out.println("init contact manager");
+        anotherDVMAddresses = new ArrayList<>();
         anotherDVMAddresses.add("13.124.36.229:9001");
         anotherDVMAddresses.add("43.202.249.230:9001");
     }

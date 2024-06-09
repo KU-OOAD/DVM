@@ -1,16 +1,11 @@
 package manager;
 
 import data.DVM;
-
 import java.io.*;
-import java.net.ConnectException;
 import java.net.Socket;
 import java.util.*;
-
 import org.json.JSONException;
-import org.json.JSONObject;
 import util.JsonParser;
-
 
 public class DVMContactManager {
 

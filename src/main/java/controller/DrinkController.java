@@ -23,7 +23,7 @@ public class DrinkController implements Controller {
 
     private void getMenuList(DataOutputStream dos, String body) {
         try {
-            dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/json;charset=utf-8\r\n\r\n"));
+            dos.writeBytes(("HTTP/1.1 200 OK\r\nContent Type: text/json;charset=utf-8\r\n\r\n"));
 
             DrinkManager manager = new DrinkManager();
             List<Drink> list = manager.getMenuInfo();
@@ -34,6 +34,8 @@ public class DrinkController implements Controller {
                 str.append(drink.getDrinkName());
                 str.append(" ");
                 str.append(drink.getDrinkPrice());
+                str.append(" ");
+                str.append(drink.getDrinkNum());
                 str.append("\n");
             }
 

@@ -1,8 +1,6 @@
 package dvm;
 
 import controller.Controller;
-
-import javax.xml.crypto.Data;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -16,10 +14,6 @@ public class DVMSimulationServer {
 
         int port = 9001;
         ExecutorService service = Executors.newFixedThreadPool(50);
-
-        if (args.length != 0) {
-            port = Integer.parseInt(args[0]);
-        }
 
         System.out.println("Server is now loading...");
 
@@ -40,15 +34,14 @@ public class DVMSimulationServer {
                         if(c == '{') {
                             url = "/message";
                         } else startLine = br.readLine();
-                        System.out.println(startLine);
                         String[] startLines = startLine.split(" ");
                         if(url.isBlank()) url = startLines[1];
-                        System.out.println(url);
+                        System.out.println("url: " + url);
 
                         Controller controller = mapper.getController(url);
                         if(controller == null) {
                             DataOutputStream dos =  new DataOutputStream(finalConnection.getOutputStream());
-                            dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/html;charset=utf-8 \r\n\r\n Error wrong url"));
+                            dos.writeBytes(("HTTP/1.1 200 OK\r\nContent Type: text/html;charset=utf-8\r\n\r\nError! Wrong url!"));
                             dos.flush();
                             dos.close();
                         } else controller.execute(url, br, os);

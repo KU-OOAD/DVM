@@ -1,7 +1,8 @@
 package controller;
 
+import manager.AdminAccountManager;
+
 import java.io.*;
-import java.net.Socket;
 import java.util.Objects;
 
 public class AdminController implements Controller {
@@ -30,17 +31,19 @@ public class AdminController implements Controller {
     }
 
     private void login(DataOutputStream dos, String body) throws IOException {
-        dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/html;charset=utf-8 \r\n\r\nok"));
+        AdminAccountManager adminManager = new AdminAccountManager();
+
+        dos.writeBytes(("HTTP/1.1 200 OK\r\nContent Type: text/html;charset=utf-8\r\n\r\nok"));
         dos.flush();
     }
 
     private void logout(DataOutputStream dos, String body) throws IOException {
-        dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/html;charset=utf-8 \r\n\r\nok"));
+        dos.writeBytes(("HTTP/1.1 200 OK\r\nContent Type: text/html;charset=utf-8\r\n\r\nok"));
         dos.flush();
     }
 
     private void manageDrink(DataOutputStream dos, String body) throws IOException {
-        dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/html;charset=utf-8 \r\n\r\n ok"));
+        dos.writeBytes(("HTTP/1.1 200 OK\r\nContent Type: text/html;charset=utf-8\r\n\r\nok"));
         dos.flush();
     }
 

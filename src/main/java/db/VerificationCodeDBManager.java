@@ -56,9 +56,9 @@ public class VerificationCodeDBManager implements DBManager {
     }
 
     public Boolean saveCode(VerificationCode code) {
-        if (checkCode(code.getCode()) != null) {
-            return false;
-        }
+//        if (checkCode(code.getCode()) != null) {
+//            return false;
+//        }
 
         try (FileWriter fileWriter = new FileWriter(dbPath, true)) {
             fileWriter.write(code.getDrinkType() + " " + code.getDrinkNum() + " " + code.getCode() + "\n");

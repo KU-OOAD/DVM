@@ -45,13 +45,13 @@ public class PayController implements Controller {
     }
 
     private void setDrink(DataOutputStream dos, String body) throws IOException {
-        dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/html;charset=utf-8 \r\n\r\n ok"));
+        dos.writeBytes(("HTTP/1.1 200 OK\r\nContent Type: text/html;charset=utf-8\r\n\r\nok"));
         drinkType = body;
         dos.flush();
     }
 
     private void setDrinkNum(DataOutputStream dos, String body) throws IOException {
-        dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/html;charset=utf-8 \r\n\r\n ok"));
+        dos.writeBytes(("HTTP/1.1 200 OK\r\nContent Type: text/html;charset=utf-8\r\n\r\nok"));
         drinkNum = Integer.parseInt(body);
         dos.flush();
     }
@@ -59,23 +59,23 @@ public class PayController implements Controller {
     private void isPayAvailable(DataOutputStream dos, String body) throws IOException {
         DrinkManager drinkManager = new DrinkManager();
         if(drinkManager.hasDrink(drinkType, drinkNum))
-            dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/html;charset=utf-8 \r\n\r\nok"));
+            dos.writeBytes(("HTTP/1.1 200 OK\r\nContent Type: text/html;charset=utf-8\r\n\r\nok"));
         else {
             DVMContactManager contactManager = new DVMContactManager();
             DVM dvm = contactManager.searchDrink(drinkType, drinkNum);
             if(dvm != null) {
-                String res = "HTTP/1.1 200 OK \r\n Content Type: text/html;charset=utf-8 \r\n\r\n";
+                String res = "HTTP/1.1 200 OK\r\nContent Type: text/html;charset=utf-8\r\n\r\n";
                 res += dvm.getX();
                 res += " ";
                 res += dvm.getY();
                 dos.writeBytes(res);
-            } else dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/html;charset=utf-8 \r\n\r\nno"));
+            } else dos.writeBytes(("HTTP/1.1 200 OK\r\nContent Type: text/html;charset=utf-8\r\n\r\nno"));
         }
         dos.flush();
     }
 
     private void isPrepayAvailable(DataOutputStream dos, String body) throws IOException {
-        dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/html;charset=utf-8 \r\n\r\nok"));
+        dos.writeBytes(("HTTP/1.1 200 OK\r\nContent Type: text/html;charset=utf-8\r\n\r\nok"));
         dos.flush();
     }
 
@@ -86,10 +86,10 @@ public class PayController implements Controller {
             DrinkManager drinkManager = new DrinkManager();
             Drink drink = drinkManager.getDrink(drinkType, drinkNum);
 
-            String str = "HTTP/1.1 200 OK \r\n Content Type: text/html;charset=utf-8 \r\n\r\n" + drink.getDrinkName() + " " + drink.getDrinkNum();
+            String str = "HTTP/1.1 200 OK\r\nContent Type: text/html;charset=utf-8\r\n\r\n" + drink.getDrinkName() + " " + drink.getDrinkNum();
             byte[] b = str.getBytes(StandardCharsets.UTF_8);
             dos.write(b);
-        } else dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/html;charset=utf-8 \r\n\r\n" + res));
+        } else dos.writeBytes(("HTTP/1.1 200 OK\r\nContent Type: text/html;charset=utf-8\r\n\r\n" + res));
         dos.flush();
     }
 
@@ -106,9 +106,9 @@ public class PayController implements Controller {
                 VerificationCode verifyCode = new VerificationCode(code, drinkType, drinkNum);
                 verificationManager.saveCode(verifyCode);
 
-                dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/html;charset=utf-8 \r\n\r\n" + code));
+                dos.writeBytes(("HTTP/1.1 200 OK\r\nContent Type: text/html;charset=utf-8\r\n\r\n" + code));
             }
-        } else dos.writeBytes(("HTTP/1.1 200 OK \r\n Content Type: text/html;charset=utf-8 \r\n\r\nno"));
+        } else dos.writeBytes(("HTTP/1.1 200 OK\r\nContent Type: text/html;charset=utf-8\r\n\r\nno"));
         dos.flush();
     }
 

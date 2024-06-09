@@ -1,7 +1,5 @@
 package manager;
 
-import controller.Controller;
-import controller.PayController;
 import data.Card;
 
 import java.util.Random;
@@ -9,7 +7,6 @@ import java.util.Random;
 public class PaymentManager {
 
     public String reqPay(Card card) {
-        // TODO implement here
         class Bank{
             public String reqPay(Card card){
                 Random random = new Random();

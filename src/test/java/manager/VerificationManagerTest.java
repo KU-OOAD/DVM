@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class VerificationManagerTest {
 
-    private VerificationManager manager = new VerificationManager();
+    private final VerificationManager manager = new VerificationManager();
 
     @Test
     void getVerificationCode() {

@@ -48,6 +48,7 @@ public class PayController implements Controller {
     }
 
     private void setDrink(DataOutputStream dos, String body) throws IOException {
+        DVMContactManager contactManager = new DVMContactManager();
         dos.writeBytes(("HTTP/1.1 200 OK\r\nContent Type: text/html;charset=utf-8\r\n\r\nok"));
         drinkType = body;
         dos.flush();

@@ -21,6 +21,7 @@ public class DVMContactManager {
     }
 
     public DVM searchDrink(String drinkType, int drinkNum) {
+        System.out.println("start search drink");
         String message = String.format("{ \"msg_type\": \"req_stock\", \"src_id\": \"Team2\", \"dst_id\": \"0\", \"msg_content\": { \"item_code\": \"%s\", \"item_num\": %d } }",
                 drinkType, drinkNum);
 
@@ -29,6 +30,7 @@ public class DVMContactManager {
             try {
                 // 소켓 생성 및 서버 연결
                 String[] arr = address.split(":");
+                System.out.println(arr[0] + arr[1]);
                 Socket socket = new Socket(arr[0], Integer.parseInt(arr[1]));
                 System.out.println("Connect to server: " + arr[0]);
 

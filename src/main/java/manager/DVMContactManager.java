@@ -128,8 +128,8 @@ public class DVMContactManager {
 
                 if ("resp_prepay".equals(msgType)) {
                     Map<String, Object> msgContent = (Map<String, Object>) map.get("msg_content");
-                    Boolean availability = (Boolean) msgContent.get("availability");
-                    if (availability) {
+                    String availability = msgContent.get("availability").toString();
+                    if (Objects.equals(availability, "true")) {
                         // 소켓 닫기
                         socket.close();
                         return true;

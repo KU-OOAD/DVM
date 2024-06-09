@@ -9,7 +9,7 @@ import util.JsonParser;
 
 public class DVMContactManager {
 
-    private final List<String> anotherDVMAddresses;
+    private final ArrayList<String> anotherDVMAddresses;
 
     public DVMContactManager() {
         System.out.println("init contact manager");

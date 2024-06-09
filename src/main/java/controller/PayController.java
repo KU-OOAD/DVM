@@ -22,8 +22,6 @@ public class PayController implements Controller {
 
     private DVM dvm;
 
-    DVMContactManager contactManager = new DVMContactManager();
-
     @Override
     public void execute(String url, BufferedReader br, OutputStream os) throws IOException {
         DataOutputStream dos = new DataOutputStream(os);
@@ -67,7 +65,7 @@ public class PayController implements Controller {
             dos.writeBytes(("HTTP/1.1 200 OK\r\nContent Type: text/html;charset=utf-8\r\n\r\nok"));
         else {
             System.out.println("don't have drink");
-            //DVMContactManager contactManager = new DVMContactManager();
+            DVMContactManager contactManager = new DVMContactManager();
             System.out.println("need to search");
             dvm = contactManager.searchDrink(drinkType, drinkNum);
             if(dvm != null) {

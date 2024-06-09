@@ -4,7 +4,6 @@ import data.DVM;
 import java.io.*;
 import java.net.Socket;
 import java.util.*;
-import org.json.JSONException;
 import util.JsonParser;
 
 public class DVMContactManager {
@@ -66,9 +65,6 @@ public class DVMContactManager {
                 socket.close();
             } catch (IOException e) {
                 System.err.println("서버에 연결 실패: " + e.getMessage());
-                e.printStackTrace();
-            } catch (JSONException e) {
-                System.err.println("응답 파싱 실패: ");
                 e.printStackTrace();
             }
         }
@@ -144,9 +140,6 @@ public class DVMContactManager {
             socket.close();
         } catch (IOException e) {
             System.err.println("서버에 연결 실패");
-            e.printStackTrace();
-        } catch (JSONException e) {
-            System.err.println("응답 파싱 실패: " + e.getMessage());
             e.printStackTrace();
         }
         return false;

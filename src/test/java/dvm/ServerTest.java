@@ -76,7 +76,7 @@ public class ServerTest {
         String[] body = response.split("\n\n");
 
         DrinkDBManager dbManager = DrinkDBManager.getManager();
-        List<Drink> list = dbManager.getAllDrinkStatus();
+        List<Drink> list = dbManager.getMenuList();
 
         StringBuilder str = new StringBuilder();
         for (Drink drink : list) {

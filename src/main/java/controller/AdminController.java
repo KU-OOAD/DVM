@@ -1,8 +1,13 @@
 package controller;
 
+import data.AdminAccount;
+import data.Drink;
 import manager.AdminAccountManager;
+import manager.DrinkManager;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Objects;
 
 public class AdminController implements Controller {
@@ -28,12 +33,19 @@ public class AdminController implements Controller {
         if(Objects.equals(url, "/admin/login")) login(dos, data);
         else if(Objects.equals(url, "/admin/logout")) logout(dos, data);
         else if(Objects.equals(url, "/admin/manage")) manageDrink(dos, data);
+        else if(Objects.equals(url, "/admin/amount")) reqAmountOfDrink(dos, data);
     }
 
     private void login(DataOutputStream dos, String body) throws IOException {
-        AdminAccountManager adminManager = new AdminAccountManager();
+        String[] accounts = body.split(" ");
 
-        dos.writeBytes(("HTTP/1.1 200 OK\r\nContent Type: text/html;charset=utf-8\r\n\r\nok"));
+        AdminAccountManager adminManager = new AdminAccountManager();
+        AdminAccount account = new AdminAccount(accounts[0], accounts[1]);
+        if(adminManager.checkUser(account)) {
+            dos.writeBytes(("HTTP/1.1 200 OK\r\nContent Type: text/html;charset=utf-8\r\n\r\nok"));
+        } else {
+            dos.writeBytes(("HTTP/1.1 200 OK\r\nContent Type: text/html;charset=utf-8\r\n\r\nno"));
+        }
         dos.flush();
     }
 
@@ -43,7 +55,35 @@ public class AdminController implements Controller {
     }
 
     private void manageDrink(DataOutputStream dos, String body) throws IOException {
-        dos.writeBytes(("HTTP/1.1 200 OK\r\nContent Type: text/html;charset=utf-8\r\n\r\nok"));
+        String[] arr = body.split(" ");
+        int num = Integer.parseInt(arr[1]);
+        DrinkManager drinkManager = new DrinkManager();
+        if(drinkManager.manageDrink(arr[0], num)) {
+            dos.writeBytes(("HTTP/1.1 200 OK\r\nContent Type: text/html;charset=utf-8\r\n\r\nok"));
+        } else {
+            dos.writeBytes(("HTTP/1.1 200 OK\r\nContent Type: text/html;charset=utf-8\r\n\r\nno"));
+        }
+        dos.flush();
+    }
+
+    private void reqAmountOfDrink(DataOutputStream dos, String body) throws IOException {
+        DrinkManager drinkManager = new DrinkManager();
+        List<Drink> list = drinkManager.reqAmountOfDrink();
+
+        StringBuilder str = new StringBuilder();
+        for (Drink drink : list) {
+            str.append(String.format("%02d", drink.getId()));
+            str.append(" ");
+            str.append(drink.getDrinkName());
+            str.append(" ");
+            str.append(drink.getDrinkPrice());
+            str.append(" ");
+            str.append(drink.getDrinkNum());
+            str.append("\n");
+        }
+
+        dos.writeBytes(("HTTP/1.1 200 OK\r\nContent Type: text/json;charset=utf-8\r\n\r\n"));
+        dos.write(str.toString().getBytes(StandardCharsets.UTF_8));
         dos.flush();
     }
 

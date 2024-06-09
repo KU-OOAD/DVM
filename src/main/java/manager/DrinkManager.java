@@ -12,7 +12,8 @@ public class DrinkManager {
     private List<Drink> menuList;
 
     public DrinkManager() {
-        this.menuList = reqAmountOfDrink();
+        DrinkDBManager drinkDBManager = DrinkDBManager.getManager();
+        menuList = drinkDBManager.getMenuList();
     }
 
     public Boolean hasDrink(String drinkType, int drinkNum) {
